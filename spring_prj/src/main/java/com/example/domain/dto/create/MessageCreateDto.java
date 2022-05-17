@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * メッセージの新規登録用DTO
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

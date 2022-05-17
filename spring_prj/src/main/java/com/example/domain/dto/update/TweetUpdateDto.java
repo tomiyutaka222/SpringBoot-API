@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * ツイートの更新用DTO
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

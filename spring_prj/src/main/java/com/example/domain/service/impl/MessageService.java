@@ -30,6 +30,7 @@ public class MessageService implements ServiceInterFace<MessageEntity> {
      * @return List<MessageEntity> アカウント情報リスト
      */
     public List<MessageEntity> getAll() {
+        // メッセージを全取得する
         return messageRepository.findAll();
     }
 
@@ -39,6 +40,7 @@ public class MessageService implements ServiceInterFace<MessageEntity> {
      * @return TweetEntity メッセージ情報リスト
      */
     public MessageEntity findById(int id) {
+        // IDからメッセージを検索
         return messageRepository.findById(id).orElseThrow(() -> {
             throw new RuntimeException("メッセージが存在しません。");
         });
@@ -51,7 +53,7 @@ public class MessageService implements ServiceInterFace<MessageEntity> {
      * @return メッセージ情報リスト
      */
     public List<MessageEntity> getMessageByMessageTitle(String messageTitle) {
-        // アカウント情報をあいまい検索する
+        // メッセージ情報をあいまい検索する
         return messageRepository.findByMessageTitleLike(messageTitle);
     }
 
@@ -61,9 +63,11 @@ public class MessageService implements ServiceInterFace<MessageEntity> {
      * @param id メッセージのID
      */
     public void deleteMessage(int id) {
+        // IDからメッセージを検索
         MessageEntity account = messageRepository.findById(id).orElseThrow(() -> {
             throw new RuntimeException("メッセージが存在しません。");
         });
+        // 対象メッセージを削除
         messageRepository.delete(account);
     }
 
@@ -74,10 +78,10 @@ public class MessageService implements ServiceInterFace<MessageEntity> {
      * @return void
      */
     public void storeMessage(MessageCreateDto postParam) {
-        // 保存したいAcountEntityをリストに挿入
+        // メッセージ情報リストを作成する
         List<MessageEntity> entities = Arrays.asList(
                 new MessageEntity(
-                        // アカウントのID
+                        // メッセージのID
                         // オートインクリメントされるので0で固定
                         0,
                         // メッセージ表題
@@ -92,30 +96,31 @@ public class MessageService implements ServiceInterFace<MessageEntity> {
                         postParam.getSubmitAccount().orElseThrow(() -> {
                             throw new RuntimeException("アカウント情報IDが指定されていません。");
                         })));
-        // アカウントデータを保存
+        // メッセージデータを保存
         messageRepository.saveAll(entities);
     }
 
     public void updateMessage(MessageUpdateDto postParam) {
-        // 保存したいAcountEntityをリストに挿入
+        // メッセージ情報リストを作成する
         List<MessageEntity> entities = Arrays.asList(
                 new MessageEntity(
-                        // アカウントのID
+                        // メッセージのID
                         postParam.getId().orElseThrow(() -> {
                             throw new RuntimeException("メッセージIDが指定されていません。");
                         }),
-                        // メールアドレス
+                        // メッセージ表題
                         postParam.getMessageTitle().orElseThrow(() -> {
                             throw new RuntimeException("メッセージのタイトルが入力されていません。");
                         }),
-                        // パスワード
+                        // メッセージ内容
                         postParam.getMessageDetail().orElseThrow(() -> {
                             throw new RuntimeException("メッセージの本文が入力されていません。");
                         }),
+                        // 登録アカウント
                         postParam.getSubmitAccount().orElseThrow(() -> {
                             throw new RuntimeException("アカウント情報IDが指定されていません。");
                         })));
-        // アカウントデータを保存
+        // メッセージデータを保存
         messageRepository.saveAll(entities);
 
     }

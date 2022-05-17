@@ -29,6 +29,7 @@ public class TweetService implements ServiceInterFace<TweetEntity> {
      * @return List<TweetEntity> ツイート情報リスト
      */
     public List<TweetEntity> getAll() {
+        // ツイートを全取得する
         return tweetRepository.findAll();
     }
 
@@ -38,6 +39,7 @@ public class TweetService implements ServiceInterFace<TweetEntity> {
      * @return TweetEntity ツイート情報
      */
     public TweetEntity findById(int id) {
+        // IDからツイートを取得する
         return tweetRepository.findById(id).orElseThrow(() -> {
             throw new RuntimeException("ツイートが存在しません。");
         });
@@ -60,9 +62,11 @@ public class TweetService implements ServiceInterFace<TweetEntity> {
      * @param id
      */
     public void deleteTweet(int id) {
+        // IDからツイートを取得する
         TweetEntity account = tweetRepository.findById(id).orElseThrow(() -> {
             throw new RuntimeException("ツイートが存在しません。");
         });
+        // ツイート情報を削除する
         tweetRepository.delete(account);
     }
 
@@ -73,6 +77,7 @@ public class TweetService implements ServiceInterFace<TweetEntity> {
      * @return void
      */
     public void storeTweet(TweetCreateDto postParam) {
+        // ツイート情報リストを作成する
         List<TweetEntity> entities = Arrays.asList(
                 new TweetEntity(
                         // PK オートインクリメントなので、0を指定
@@ -90,18 +95,18 @@ public class TweetService implements ServiceInterFace<TweetEntity> {
     }
 
     public void updateTweet(TweetUpdateDto postParam) {
-        // 保存したいAcountEntityをリストに挿入
+        // ツイート情報リストを作成する
         List<TweetEntity> entities = Arrays.asList(
                 new TweetEntity(
-                        // アカウントのID
+                        // ツイートID
                         postParam.getId().orElseThrow(() -> {
                             throw new RuntimeException("ツイートIDが指定されていません。");
                         }),
-                        // メールアドレス
+                        // ツイート本文
                         postParam.getTweetText().orElseThrow(() -> {
                             throw new RuntimeException("ツイート情報が未入力です。");
                         }),
-                        // パスワード
+                        // ツイートしたアカウントID
                         postParam.getAccountId().orElseThrow(() -> {
                             throw new RuntimeException("アカウント情報IDが指定されていません。");
                         })));

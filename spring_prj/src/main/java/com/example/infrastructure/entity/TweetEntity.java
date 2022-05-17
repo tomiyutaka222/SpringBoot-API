@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 /**
- * アカウントの情報を永続化するEntity
+ * ツイートの情報を永続化するEntity
  */
 @Entity
 @Data

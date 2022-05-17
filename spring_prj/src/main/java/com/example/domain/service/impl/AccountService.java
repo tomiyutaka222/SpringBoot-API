@@ -30,15 +30,17 @@ public class AccountService implements ServiceInterFace<AccountEntity> {
      * @return List<AccountEntity> アカウント情報リスト
      */
     public List<AccountEntity> getAll() {
+        // アカウント情報を全取得する
         return accountRepository.findAll();
     }
 
     /**
-     * IDからツイート情報を取得して返却します
+     * IDからアカウント情報を取得して返却します
      * 
      * @return TweetEntity ツイート情報
      */
     public AccountEntity findById(int id) {
+        // IDからアカウント情報を取得する
         return accountRepository.findById(id).orElseThrow(() -> {
             throw new RuntimeException("アカウントが存在しません。");
         });
@@ -61,9 +63,11 @@ public class AccountService implements ServiceInterFace<AccountEntity> {
      * @param id
      */
     public void deleteAccount(int id) {
+        // IDからアカウント情報を取得する
         AccountEntity account = accountRepository.findById(id).orElseThrow(() -> {
             throw new RuntimeException("アカウントが存在しません。");
         });
+        // 対象のアカウント情報を削除
         accountRepository.delete(account);
     }
 
@@ -74,7 +78,7 @@ public class AccountService implements ServiceInterFace<AccountEntity> {
      * @return void
      */
     public void storeAccount(AccountCreateDto postParam) {
-        // 保存したいAcountEntityをリストに挿入
+        // アカウント情報リストを作成する
         List<AccountEntity> entities = Arrays.asList(
                 new AccountEntity(
                         // アカウントのID
@@ -99,8 +103,13 @@ public class AccountService implements ServiceInterFace<AccountEntity> {
         accountRepository.saveAll(entities);
     }
 
+    /**
+     * アカウント情報を更新します
+     * 
+     * @param postParam アカウント情報リスト
+     */
     public void updateAccount(AccountUpdateDto postParam) {
-        // 保存したいAcountEntityをリストに挿入
+        // アカウント情報リストを作成する
         List<AccountEntity> entities = Arrays.asList(
                 new AccountEntity(
                         // アカウントのID
